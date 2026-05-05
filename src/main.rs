@@ -7,10 +7,13 @@ use tower_http::services::ServeDir;
 
 use crate::handlers::{get_boards, root};
 
+const DEFAULT_URL: &'static str = "0.0.0.0:3030";
+
 #[tokio::main]
 async fn main() {
     let router = app();
-    let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await.unwrap();
+    let listener = tokio::net::TcpListener::bind(DEFAULT_URL).await.unwrap();
+    println!("listening on ");
     axum::serve(listener, router).await.unwrap();
 }
 
