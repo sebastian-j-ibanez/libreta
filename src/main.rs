@@ -8,7 +8,7 @@ use tower_http::services::ServeDir;
 
 use crate::{
     db::DbManager,
-    handlers::{get_boards_handler, root},
+    handlers::{get_all_boards_handler, root},
 };
 
 const DEFAULT_URL: &'static str = "127.0.0.1:3030";
@@ -26,7 +26,7 @@ async fn main() {
 fn app(db: DbManager) -> Router {
     let serve_dir = ServeDir::new("frontend/dist/");
     Router::new()
-        .route("/boards", get(get_boards_handler))
+        .route("/boards", get(get_all_boards_handler))
         .route("/", get(root))
         .fallback_service(serve_dir)
         .with_state(db)

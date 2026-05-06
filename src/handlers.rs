@@ -11,8 +11,7 @@ pub async fn root() -> Html<&'static str> {
 // Boards
 
 /// Get all boards from database.
-/// This is a mock function right now.
-pub async fn get_boards_handler(
+pub async fn get_all_boards_handler(
     State(db_manager): State<DbManager>,
 ) -> (StatusCode, Json<Vec<Board>>) {
     match db_manager.get_all_boards().await {
