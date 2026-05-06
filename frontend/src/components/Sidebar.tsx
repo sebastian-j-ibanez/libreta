@@ -8,9 +8,13 @@ export default function Sidebar() {
         <div class="text-2xl fixed left-0 top-0 h-screen w-60 border-r flex flex-col items-center py-4">
             <ul>
                 <For each={boardNames()}>
-                    {(board) => <li>{board.name}</li>}
+                    {(board) => (
+                        <li>
+                            <button class="font-bold">{board.name}</button>
+                        </li>
+                    )}
                 </For>
             </ul>
-        </div>
+        </div >
     )
 }

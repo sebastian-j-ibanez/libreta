@@ -1,4 +1,4 @@
-const defaultUrl = "http://localhost:3000";
+const defaultUrl = "http://127.0.0.1:3030";
 
 /**
  * Fetch data from the backend API. 

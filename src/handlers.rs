@@ -1,6 +1,7 @@
 // Copyright 2026 Sebastian Ibanez
-use axum::{Json, http::StatusCode, response::Html};
-use serde::Serialize;
+use axum::{Json, extract::State, http::StatusCode, response::Html};
+
+use crate::db::{Board, DbManager};
 
 /// Get index.html.
 pub async fn root() -> Html<&'static str> {
@@ -9,20 +10,19 @@ pub async fn root() -> Html<&'static str> {
 
 // Boards
 
-/// Represents a todo Board.
-#[derive(Debug, Clone, Serialize)]
-pub struct Board {
-    id: u32,
-    name: String,
-}
-
 /// Get all boards from database.
 /// This is a mock function right now.
-pub async fn get_boards() -> (StatusCode, Json<Vec<Board>>) {
-    let mut boards = Vec::new();
-    boards.push(Board {
-        id: 0,
-        name: String::from("Main"),
-    });
-    (StatusCode::OK, Json(boards))
+pub async fn get_boards_handler(
+    State(db_manager): State<DbManager>,
+) -> (StatusCode, Json<Vec<Board>>) {
+    match db_manager.get_all_boards().await {
+        Ok(boards) => (StatusCode::OK, Json(boards)),
+        Err(e) => {
+            eprintln!(
+                "[ERR] error while getting all boards from db: {}",
+                e.to_string()
+            );
+            (StatusCode::INTERNAL_SERVER_ERROR, Json(Vec::new()))
+        }
+    }
 }

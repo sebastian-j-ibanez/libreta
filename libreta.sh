@@ -98,6 +98,7 @@ ${BOLD}EXAMPLES${RESET}
   ./libreta.sh full               # build frontend → seed DB → debug server
   ./libreta.sh db seed            # wipe DB, apply schema, load test data
   ./libreta.sh db reset           # wipe DB, apply schema only
+  ./libreta.sh frontend build     # Vite build frontend
   ./libreta.sh frontend dev       # Vite hot-reload dev server
 "
 }
@@ -154,6 +155,9 @@ case "$COMMAND" in
             dev)
                 banner "DEV" "Starting Vite dev server..."
                 npm --prefix "$FRONTEND_DIR" run dev
+                ;;
+            build)
+                build_frontend
                 ;;
             *)  err "Unknown frontend subcommand: '${SUBCOMMAND:-<none>}'. Use 'dev'." ;;
         esac
