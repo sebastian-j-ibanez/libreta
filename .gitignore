@@ -1,4 +1,5 @@
 /target
+database/libreta.db
 
 # Editor files
 .vscode/
