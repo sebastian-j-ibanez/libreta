@@ -69,6 +69,27 @@ run_server() {
     fi
 }
 
+run_dev() {
+    banner "DEV" "Starting Rust API + Vite dev server..."
+    echo -e "  ${CYAN}API${RESET}      → http://127.0.0.1:3030"
+    echo -e "  ${CYAN}Frontend${RESET} → http://localhost:5173"
+    echo -e "  ${YELLOW}Ctrl+C to stop both.${RESET}"
+
+    cargo run &
+    local rust_pid=$!
+    npm --prefix "$FRONTEND_DIR" run dev &
+    local vite_pid=$!
+
+    cleanup() {
+        echo -e "\n${YELLOW}Shutting down...${RESET}"
+        kill "$rust_pid" "$vite_pid" 2>/dev/null
+        wait "$rust_pid" "$vite_pid" 2>/dev/null
+    }
+    trap cleanup EXIT INT TERM
+
+    wait -n "$rust_pid" "$vite_pid"
+}
+
 print_usage() {
     echo -e "
 ${BOLD}libreta.sh${RESET} — dev workflow shim for the libreta project
@@ -77,6 +98,7 @@ ${BOLD}USAGE${RESET}
   ./libreta.sh <command> [options]
 
 ${BOLD}COMMANDS${RESET}
+  ${CYAN}dev${RESET}            Run Rust API + Vite dev server concurrently (HMR)
   ${CYAN}run${RESET}            Run the Rust server (no frontend rebuild)
   ${CYAN}serve${RESET}          Build frontend, then run the server
   ${CYAN}full${RESET}           Build frontend, seed DB fresh, then run the server
@@ -91,6 +113,7 @@ ${BOLD}OPTIONS${RESET}
   ${YELLOW}--help, -h${RESET}     Show this help
 
 ${BOLD}EXAMPLES${RESET}
+  ./libreta.sh dev                # HMR: Vite dev server + Rust API in parallel
   ./libreta.sh run                # debug server, no build
   ./libreta.sh run --release      # release server, no build
   ./libreta.sh serve              # build frontend → debug server
@@ -131,6 +154,9 @@ done
 preflight
 
 case "$COMMAND" in
+    dev)
+        run_dev
+        ;;
     run)
         run_server "$MODE"
         ;;

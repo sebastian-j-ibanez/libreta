@@ -7,4 +7,9 @@ export default defineConfig({
         solid(),
         tailwindcss()
     ],
+    server: {
+        proxy: {
+            '/boards': 'http://127.0.0.1:3030',
+        },
+    },
 })

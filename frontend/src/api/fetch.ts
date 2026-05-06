@@ -1,13 +1,11 @@
-const defaultUrl = "http://127.0.0.1:3030";
-
 /**
- * Fetch data from the backend API. 
- * @param route The url string. 
- * @returns The response body or null. 
+ * Fetch data from the backend API.
+ * @param route The url string.
+ * @returns The response body or null.
  */
 export async function fetchData<T>(route: string): Promise<T | null> {
     try {
-        const response = await fetch(defaultUrl + route);
+        const response = await fetch(route);
         if (!response.ok) {
             console.log(`HTTP error: {response.status}`)
             return Promise.reject(new Error())
