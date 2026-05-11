@@ -1,5 +1,12 @@
+import { For, createResource } from "solid-js";
+import { getColumnsMock } from "../api/data";
+import Column from "./Column";
+
 export default function Board() {
-    return (
-        <p>This is the main board</p>
-    )
+  const [columns] = createResource(getColumnsMock);
+  return (
+    <div class="flex w-full h-full px-16 py-8 overflow-auto overscroll-x-auto">
+      <For each={columns()}>{(column) => <Column column={column} />}</For>
+    </div>
+  );
 }

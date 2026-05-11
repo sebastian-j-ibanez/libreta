@@ -8,15 +8,15 @@ CREATE TABLE boards (
 CREATE TABLE tasks (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     title TEXT NOT NULL,
-    complete INTEGER NOT NULL,
-    description TEXT
+    description TEXT,
+    complete INTEGER NOT NULL
 );
 
 CREATE TABLE subtasks (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     body TEXT NOT NULL,
-    complete INTEGER NOT NULL,
-    task_id INTEGER REFERENCES tasks(id)
+    task_id INTEGER REFERENCES tasks(id),
+    complete INTEGER NOT NULL
 );
 
 CREATE TABLE columns (

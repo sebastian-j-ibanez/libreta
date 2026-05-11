@@ -10,3 +10,8 @@ body {
     background: #1f1e25;
     color: #c8c8cc;
 }
+
+html, body, #root {
+    height: 100%;
+    overflow: hidden;
+}
