@@ -1,10 +1,11 @@
-import { createResource } from "solid-js";
-import { getColumnsMock, type Column } from "../api/data";
+import { type Column } from "../api/data";
 
 export default function Column(props: { column: Column }) {
   return (
-    <div class="w-full min-w-100 border-zinc-600 border rounded-lg">
-      <div class="text-2xl text-center">{props.column.name}</div>
+    <div class="mx-2 min-w-100 border-neutral-600 border-2 rounded-lg">
+      <div class="grid-row row-span-full">
+        <div class="text-xl text-center pt-4">{props.column.name}</div>
+      </div>
     </div>
   );
 }
